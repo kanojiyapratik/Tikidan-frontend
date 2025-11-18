@@ -52,7 +52,7 @@ import {
   ManageAccounts,
 } from '@mui/icons-material';
 
-const drawerWidth = 200;
+const drawerWidth = 240;
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -111,44 +111,60 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     console.log('Logged out successfully');
   };
 
-  const menuItems = [
-    { text: 'Reports', icon: <DashboardIcon fontSize="small" />, path: '/reports', color: '#2196f3' },
-    { text: 'Team', icon: <GroupIcon fontSize="small" />, path: '/team', color: '#2196f3' },
-    { text: 'Projects', icon: <WorkIcon fontSize="small" />, path: '/projects', color: '#2196f3' },
-    { text: 'Clients', icon: <PeopleIcon fontSize="small" />, path: '/clients', color: '#2196f3' },
+  const allMenuItems = [
+    { text: 'Reports', icon: <DashboardIcon fontSize="small" />, path: '/reports', color: '#2196f3', roles: ['admin', 'user', 'sales_manager', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'Meetings', icon: <CalendarMonth fontSize="small" />, path: '/meetings', color: '#2196f3', roles: ['sales_manager'] },
+    { text: 'Dashboard', icon: <DashboardIcon fontSize="small" />, path: '/reports', color: '#2196f3', roles: ['sales_manager'] },
+    { text: 'Projects', icon: <WorkIcon fontSize="small" />, path: '/projects', color: '#2196f3', roles: ['admin', 'sales_manager', 'user', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'Clients', icon: <PeopleIcon fontSize="small" />, path: '/clients', color: '#2196f3', roles: ['admin', 'sales_manager', 'user', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'Team', icon: <GroupIcon fontSize="small" />, path: '/team', color: '#2196f3', roles: ['admin', 'user', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
   ];
 
-  const expensesMenuItems = [
-    { text: 'Expenses', icon: <AttachMoney fontSize="small" />, path: '/expenses', color: '#2196f3' },
-    { text: 'Review Expenses', icon: <RateReview fontSize="small" />, path: '/review-expenses', color: '#2196f3' },
-    { text: 'Approved Expenses', icon: <CheckCircle fontSize="small" />, path: '/approved-expenses', color: '#2196f3' },
-    { text: 'Rejected Expenses', icon: <Cancel fontSize="small" />, path: '/rejected-expenses', color: '#2196f3' },
-    { text: 'Expenses Report', icon: <Assessment fontSize="small" />, path: '/expenses-report', color: '#2196f3' },
-    { text: 'Payment Pending', icon: <HourglassEmpty fontSize="small" />, path: '/payment-pending', color: '#2196f3' },
-    { text: 'Expense Paid', icon: <Payment fontSize="small" />, path: '/expense-paid', color: '#2196f3' },
-    { text: 'Manage Categories', icon: <Category fontSize="small" />, path: '/manage-categories', color: '#2196f3' },
-    { text: 'Expense Settings', icon: <ManageAccounts fontSize="small" />, path: '/expense-settings', color: '#2196f3' },
+  // Filter menu items based on user role - sales manager specific restrictions
+  const menuItems = allMenuItems.filter(item => item.roles.includes(currentUser?.role));
+
+  const allExpensesMenuItems = [
+    { text: 'Expenses', icon: <AttachMoney fontSize="small" />, path: '/expenses', color: '#2196f3', roles: ['admin', 'user', 'sales_manager', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'Review Expenses', icon: <RateReview fontSize="small" />, path: '/review-expenses', color: '#2196f3', roles: ['admin', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'Approved Expenses', icon: <CheckCircle fontSize="small" />, path: '/approved-expenses', color: '#2196f3', roles: ['admin', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'Rejected Expenses', icon: <Cancel fontSize="small" />, path: '/rejected-expenses', color: '#2196f3', roles: ['admin', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'Expenses Report', icon: <Assessment fontSize="small" />, path: '/expenses-report', color: '#2196f3', roles: ['admin', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'Payment Pending', icon: <HourglassEmpty fontSize="small" />, path: '/payment-pending', color: '#2196f3', roles: ['admin', 'finance_manager', 'operations_manager', 'vice_admin', 'senior_manager', 'assistant_manager'] },
+    { text: 'Expense Paid', icon: <Payment fontSize="small" />, path: '/expense-paid', color: '#2196f3', roles: ['admin', 'finance_manager', 'operations_manager', 'vice_admin', 'senior_manager', 'assistant_manager'] },
+    { text: 'Manage Categories', icon: <Category fontSize="small" />, path: '/manage-categories', color: '#2196f3', roles: ['admin', 'finance_manager', 'vice_admin', 'senior_manager'] },
+    { text: 'Expense Settings', icon: <ManageAccounts fontSize="small" />, path: '/expense-settings', color: '#2196f3', roles: ['admin', 'finance_manager', 'vice_admin'] },
   ];
 
-  const accountMenuItems = [
-    { text: 'Profile', icon: <Person fontSize="small" />, path: '/profile', color: '#2196f3' },
-    { text: 'My Leave', icon: <CalendarMonth fontSize="small" />, path: '/my-leave', color: '#2196f3' },
-    { text: 'Team Leave', icon: <GroupWork fontSize="small" />, path: '/team-leave', color: '#2196f3' },
-    { text: 'Leave Settings', icon: <Settings fontSize="small" />, path: '/leave-settings', color: '#2196f3' },
+  // Filter expenses menu items based on user role - sales manager gets only Expenses
+  const expensesMenuItems = allExpensesMenuItems.filter(item => item.roles.includes(currentUser?.role));
+
+  const allAccountMenuItems = [
+    { text: 'Profile', icon: <Person fontSize="small" />, path: '/profile', color: '#2196f3', roles: ['admin', 'user', 'sales_manager', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'My Leave', icon: <CalendarMonth fontSize="small" />, path: '/my-leave', color: '#2196f3', roles: ['admin', 'user', 'sales_manager', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'Team Leave', icon: <GroupWork fontSize="small" />, path: '/team-leave', color: '#2196f3', roles: ['admin', 'hr_manager'] },
+    { text: 'Leave Settings', icon: <Settings fontSize="small" />, path: '/leave-settings', color: '#2196f3', roles: ['admin', 'hr_manager'] },
   ];
 
-  // Filter company menu items based on user role
-  const companyMenuItems = [
-    { text: 'Company', icon: <Business fontSize="small" />, path: '/company', color: '#2196f3', adminOnly: false },
-    { text: 'Attendance', icon: <Schedule fontSize="small" />, path: '/attendance', color: '#2196f3', adminOnly: false },
-    { text: 'Employees', icon: <Badge fontSize="small" />, path: '/employees', color: '#2196f3', adminOnly: true },
-    { text: 'Categories', icon: <Category fontSize="small" />, path: '/categories', color: '#2196f3', adminOnly: false },
-    { text: 'Department', icon: <GroupWork fontSize="small" />, path: '/department', color: '#2196f3', adminOnly: false },
-    { text: 'Branches', icon: <LocationOn fontSize="small" />, path: '/branches', color: '#2196f3', adminOnly: false },
-    { text: 'Holiday', icon: <Event fontSize="small" />, path: '/holiday', color: '#2196f3', adminOnly: false },
-    { text: 'Billing', icon: <Receipt fontSize="small" />, path: '/billing', color: '#2196f3', adminOnly: false },
-    { text: 'Company Profile', icon: <AccountBalance fontSize="small" />, path: '/company-profile', color: '#2196f3', adminOnly: false },
-  ].filter(item => !item.adminOnly || currentUser?.role === 'admin');
+  // Filter account menu items based on user role - sales manager gets only Profile and My Leave
+  const accountMenuItems = allAccountMenuItems.filter(item => item.roles.includes(currentUser?.role));
+
+  const allCompanyMenuItems = [
+    { text: 'Company', icon: <Business fontSize="small" />, path: '/company', color: '#2196f3', roles: ['admin', 'user', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'Attendance', icon: <Schedule fontSize="small" />, path: '/attendance', color: '#2196f3', roles: ['admin', 'user', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'Employees', icon: <Badge fontSize="small" />, path: '/employees', color: '#2196f3', roles: ['admin', 'hr_manager', 'vice_admin', 'senior_manager'] },
+    { text: 'Categories', icon: <Category fontSize="small" />, path: '/categories', color: '#2196f3', roles: ['admin', 'user', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'Department', icon: <GroupWork fontSize="small" />, path: '/department', color: '#2196f3', roles: ['admin', 'hr_manager', 'vice_admin', 'senior_manager'] },
+    { text: 'Branches', icon: <LocationOn fontSize="small" />, path: '/branches', color: '#2196f3', roles: ['admin', 'user', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'Holiday', icon: <Event fontSize="small" />, path: '/holiday', color: '#2196f3', roles: ['admin', 'user', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+    { text: 'Billing', icon: <Receipt fontSize="small" />, path: '/billing', color: '#2196f3', roles: ['admin', 'finance_manager', 'vice_admin', 'senior_manager'] },
+    { text: 'Company Profile', icon: <AccountBalance fontSize="small" />, path: '/company-profile', color: '#2196f3', roles: ['admin', 'user', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager'] },
+  ];
+
+  // Filter company menu items based on user role - admin gets full access, sales managers get NO access
+  const companyMenuItems = allCompanyMenuItems.filter(item =>
+    item.roles.includes(currentUser?.role) &&
+    currentUser?.role !== 'sales_manager'
+  );
 
   const drawer = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', background: '#2a2a2a' }}>
@@ -261,7 +277,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <ListItemText
                     primary={item.text}
                     primaryTypographyProps={{
-                      fontSize: '0.75rem',
+                      fontSize: '0.825rem',
                       fontWeight: (location.pathname === item.path || (location.pathname === '/' && item.path === '/reports')) ? 600 : 400,
                       color: (location.pathname === item.path || (location.pathname === '/' && item.path === '/reports')) ? item.color : 'rgba(255, 255, 255, 0.9)',
                     }}
@@ -315,7 +331,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   </ListItemIcon>
                   <ListItemText
                     primary={item.text}
-                    primaryTypographyProps={{ fontSize: '0.75rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.9)' }}
+                    primaryTypographyProps={{ fontSize: '0.825rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.9)' }}
                   />
                 </ListItemButton>
               </ListItem>
@@ -323,56 +339,58 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </List>
         </Box>
 
-        {/* Company Menu Section */}
-        <Box sx={{ px: 0.5, py: 0.5 }}>
-          <Typography
-            variant="overline"
-            sx={{
-              color: 'rgba(255, 255, 255, 0.6)',
-              fontSize: '0.6rem',
-              fontWeight: 600,
-              letterSpacing: 0.5,
-              mb: 0.15,
-              ml: 1,
-            }}
-          >
-            COMPANY
-          </Typography>
-          <List sx={{ p: 0 }}>
-            {companyMenuItems.map((item) => (
-              <ListItem key={item.text} disablePadding sx={{ mb: 0.02 }}>
-                <ListItemButton
-                  selected={location.pathname === item.path}
-                  onClick={() => navigate(item.path)}
-                  sx={{
-                    borderRadius: 1,
-                    py: 0.2,
-                    px: 0.8,
-                    backgroundColor: 'transparent',
-                    '&.Mui-selected': {
-                      background: `linear-gradient(135deg, ${alpha(item.color, 0.2)} 0%, ${alpha(item.color, 0.1)} 100%)`,
-                      borderLeft: `3px solid ${item.color}`,
-                      '&:hover': {
-                        background: `linear-gradient(135deg, ${alpha(item.color, 0.25)} 0%, ${alpha(item.color, 0.15)} 100%)`,
+        {/* Company Menu Section - Only show if there are items for the current user */}
+        {companyMenuItems.length > 0 && (
+          <Box sx={{ px: 0.5, py: 0.5 }}>
+            <Typography
+              variant="overline"
+              sx={{
+                color: 'rgba(255, 255, 255, 0.6)',
+                fontSize: '0.6rem',
+                fontWeight: 600,
+                letterSpacing: 0.5,
+                mb: 0.15,
+                ml: 1,
+              }}
+            >
+              COMPANY
+            </Typography>
+            <List sx={{ p: 0 }}>
+              {companyMenuItems.map((item) => (
+                <ListItem key={item.text} disablePadding sx={{ mb: 0.02 }}>
+                  <ListItemButton
+                    selected={location.pathname === item.path}
+                    onClick={() => navigate(item.path)}
+                    sx={{
+                      borderRadius: 1,
+                      py: 0.2,
+                      px: 0.8,
+                      backgroundColor: 'transparent',
+                      '&.Mui-selected': {
+                        background: `linear-gradient(135deg, ${alpha(item.color, 0.2)} 0%, ${alpha(item.color, 0.1)} 100%)`,
+                        borderLeft: `3px solid ${item.color}`,
+                        '&:hover': {
+                          background: `linear-gradient(135deg, ${alpha(item.color, 0.25)} 0%, ${alpha(item.color, 0.15)} 100%)`,
+                        },
                       },
-                    },
-                    '&:hover': {
-                      backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    },
-                  }}
-                >
-                  <ListItemIcon sx={{ color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.7)', minWidth: 24 }}>
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={item.text}
-                    primaryTypographyProps={{ fontSize: '0.75rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.9)' }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
+                      '&:hover': {
+                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                      },
+                    }}
+                  >
+                    <ListItemIcon sx={{ color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.7)', minWidth: 24 }}>
+                      {item.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={item.text}
+                      primaryTypographyProps={{ fontSize: '0.825rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.9)' }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+        )}
 
         {/* My Account Menu Section - Now inside scrollable area */}
         <Box sx={{ px: 0.5, py: 0.5 }}>
@@ -417,7 +435,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   </ListItemIcon>
                   <ListItemText
                     primary={item.text}
-                    primaryTypographyProps={{ fontSize: '0.75rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.9)' }}
+                    primaryTypographyProps={{ fontSize: '0.825rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.9)' }}
                   />
                 </ListItemButton>
               </ListItem>
@@ -571,7 +589,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               },
             }}
           >
-            <MenuItem onClick={handleMenuClose}>
+            <MenuItem onClick={() => { navigate('/profile'); handleMenuClose(); }}>
               <ListItemIcon>
                 <Person fontSize="small" />
               </ListItemIcon>
