@@ -42,6 +42,14 @@ import {
   Event,
   Receipt,
   AccountBalance,
+  AttachMoney,
+  RateReview,
+  CheckCircle,
+  Cancel,
+  Assessment,
+  HourglassEmpty,
+  Payment,
+  ManageAccounts,
 } from '@mui/icons-material';
 
 const drawerWidth = 200;
@@ -56,6 +64,26 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
+  
+  // Get current user data from localStorage
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  
+  React.useEffect(() => {
+    const userData = localStorage.getItem('user');
+    if (userData) {
+      setCurrentUser(JSON.parse(userData));
+    }
+  }, []);
+
+  // Get user initials for avatar
+  const getUserInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map(word => word.charAt(0))
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -70,49 +98,71 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   const handleLogout = () => {
-    // Add logout logic here
-    console.log('Logging out...');
+    // Clear authentication data
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    
+    // Close menu
     handleMenuClose();
+    
+    // Navigate to login page
+    navigate('/login');
+    
+    console.log('Logged out successfully');
   };
 
   const menuItems = [
-    { text: 'Reports', icon: <DashboardIcon fontSize="small" />, path: '/reports', color: '#1976d2' },
-    { text: 'Team', icon: <GroupIcon fontSize="small" />, path: '/team', color: '#9c27b0' },
-    { text: 'Projects', icon: <WorkIcon fontSize="small" />, path: '/projects', color: '#ff9800' },
-    { text: 'Clients', icon: <PeopleIcon fontSize="small" />, path: '/clients', color: '#4caf50' },
+    { text: 'Reports', icon: <DashboardIcon fontSize="small" />, path: '/reports', color: '#2196f3' },
+    { text: 'Team', icon: <GroupIcon fontSize="small" />, path: '/team', color: '#2196f3' },
+    { text: 'Projects', icon: <WorkIcon fontSize="small" />, path: '/projects', color: '#2196f3' },
+    { text: 'Clients', icon: <PeopleIcon fontSize="small" />, path: '/clients', color: '#2196f3' },
+  ];
+
+  const expensesMenuItems = [
+    { text: 'Expenses', icon: <AttachMoney fontSize="small" />, path: '/expenses', color: '#2196f3' },
+    { text: 'Review Expenses', icon: <RateReview fontSize="small" />, path: '/review-expenses', color: '#2196f3' },
+    { text: 'Approved Expenses', icon: <CheckCircle fontSize="small" />, path: '/approved-expenses', color: '#2196f3' },
+    { text: 'Rejected Expenses', icon: <Cancel fontSize="small" />, path: '/rejected-expenses', color: '#2196f3' },
+    { text: 'Expenses Report', icon: <Assessment fontSize="small" />, path: '/expenses-report', color: '#2196f3' },
+    { text: 'Payment Pending', icon: <HourglassEmpty fontSize="small" />, path: '/payment-pending', color: '#2196f3' },
+    { text: 'Expense Paid', icon: <Payment fontSize="small" />, path: '/expense-paid', color: '#2196f3' },
+    { text: 'Manage Categories', icon: <Category fontSize="small" />, path: '/manage-categories', color: '#2196f3' },
+    { text: 'Expense Settings', icon: <ManageAccounts fontSize="small" />, path: '/expense-settings', color: '#2196f3' },
   ];
 
   const accountMenuItems = [
-    { text: 'Profile', icon: <Person fontSize="small" />, path: '/profile' },
-    { text: 'My Leave', icon: <CalendarMonth fontSize="small" />, path: '/my-leave' },
-    { text: 'Team Leave', icon: <GroupWork fontSize="small" />, path: '/team-leave' },
-    { text: 'Leave Settings', icon: <Settings fontSize="small" />, path: '/leave-settings' },
+    { text: 'Profile', icon: <Person fontSize="small" />, path: '/profile', color: '#2196f3' },
+    { text: 'My Leave', icon: <CalendarMonth fontSize="small" />, path: '/my-leave', color: '#2196f3' },
+    { text: 'Team Leave', icon: <GroupWork fontSize="small" />, path: '/team-leave', color: '#2196f3' },
+    { text: 'Leave Settings', icon: <Settings fontSize="small" />, path: '/leave-settings', color: '#2196f3' },
   ];
 
   const companyMenuItems = [
-    { text: 'Company', icon: <Business fontSize="small" />, path: '/company' },
-    { text: 'Attendance', icon: <Schedule fontSize="small" />, path: '/attendance' },
-    { text: 'Employees', icon: <Badge fontSize="small" />, path: '/employees' },
-    { text: 'Categories', icon: <Category fontSize="small" />, path: '/categories' },
-    { text: 'Department', icon: <GroupWork fontSize="small" />, path: '/department' },
-    { text: 'Branches', icon: <LocationOn fontSize="small" />, path: '/branches' },
-    { text: 'Holiday', icon: <Event fontSize="small" />, path: '/holiday' },
-    { text: 'Billing', icon: <Receipt fontSize="small" />, path: '/billing' },
-    { text: 'Company Profile', icon: <AccountBalance fontSize="small" />, path: '/company-profile' },
+    { text: 'Company', icon: <Business fontSize="small" />, path: '/company', color: '#2196f3' },
+    { text: 'Attendance', icon: <Schedule fontSize="small" />, path: '/attendance', color: '#2196f3' },
+    { text: 'Employees', icon: <Badge fontSize="small" />, path: '/employees', color: '#2196f3' },
+    { text: 'Categories', icon: <Category fontSize="small" />, path: '/categories', color: '#2196f3' },
+    { text: 'Department', icon: <GroupWork fontSize="small" />, path: '/department', color: '#2196f3' },
+    { text: 'Branches', icon: <LocationOn fontSize="small" />, path: '/branches', color: '#2196f3' },
+    { text: 'Holiday', icon: <Event fontSize="small" />, path: '/holiday', color: '#2196f3' },
+    { text: 'Billing', icon: <Receipt fontSize="small" />, path: '/billing', color: '#2196f3' },
+    { text: 'Company Profile', icon: <AccountBalance fontSize="small" />, path: '/company-profile', color: '#2196f3' },
   ];
 
   const drawer = (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', background: '#2a2a2a' }}>
       {/* Header */}
       <Box
         sx={{
           height: '64px',
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'center',
           px: 2,
-          background: `linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)`,
+          background: '#1a1a1a',
           color: 'white',
           borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          flexShrink: 0,
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
@@ -136,27 +186,38 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </Box>
       </Box>
 
-      {/* Content Area - Main Menu + Company */}
+      {/* Scrollable Content Area - All Menu Sections */}
       <Box
         sx={{
           flexGrow: 1,
-          display: 'flex',
-          flexDirection: 'column',
           overflow: 'auto',
+          background: '#2a2a2a',
+          direction: 'rtl',
+          '& > *': {
+            direction: 'ltr',
+          },
+          '&::-webkit-scrollbar': {
+            width: '6px',
+          },
+          '&::-webkit-scrollbar-track': {
+            background: 'rgba(255, 255, 255, 0.05)',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: 'rgba(255, 255, 255, 0.2)',
+            borderRadius: '3px',
+            '&:hover': {
+              background: 'rgba(255, 255, 255, 0.3)',
+            },
+          },
         }}
       >
         {/* Main Menu Section */}
-        <Box
-          sx={{
-            p: 0.5,
-            background: 'linear-gradient(180deg, #2a2a2a 0%, #333333 100%)',
-          }}
-        >
+        <Box sx={{ px: 0.5, py: 0.5 }}>
           <Typography
             variant="overline"
             sx={{
               color: 'rgba(255, 255, 255, 0.6)',
-              fontSize: '0.5rem',
+              fontSize: '0.6rem',
               fontWeight: 600,
               letterSpacing: 0.5,
               mb: 0.15,
@@ -199,7 +260,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                   <ListItemText
                     primary={item.text}
                     primaryTypographyProps={{
-                      fontSize: '0.65rem',
+                      fontSize: '0.75rem',
                       fontWeight: (location.pathname === item.path || (location.pathname === '/' && item.path === '/reports')) ? 600 : 400,
                       color: (location.pathname === item.path || (location.pathname === '/' && item.path === '/reports')) ? item.color : 'rgba(255, 255, 255, 0.9)',
                     }}
@@ -210,18 +271,64 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </List>
         </Box>
 
-        {/* Company Menu Section */}
-        <Box
-          sx={{
-            p: 0.5,
-            background: 'linear-gradient(180deg, #2a2a2a 0%, #333333 100%)',
-          }}
-        >
+        {/* Expenses Menu Section */}
+        <Box sx={{ px: 0.5, py: 0.5 }}>
           <Typography
             variant="overline"
             sx={{
               color: 'rgba(255, 255, 255, 0.6)',
-              fontSize: '0.5rem',
+              fontSize: '0.6rem',
+              fontWeight: 600,
+              letterSpacing: 0.5,
+              mb: 0.15,
+              ml: 1,
+            }}
+          >
+            EXPENSES
+          </Typography>
+          <List sx={{ p: 0 }}>
+            {expensesMenuItems.map((item) => (
+              <ListItem key={item.text} disablePadding sx={{ mb: 0.02 }}>
+                <ListItemButton
+                  selected={location.pathname === item.path}
+                  onClick={() => navigate(item.path)}
+                  sx={{
+                    borderRadius: 1,
+                    py: 0.2,
+                    px: 0.8,
+                    backgroundColor: 'transparent',
+                    '&.Mui-selected': {
+                      background: `linear-gradient(135deg, ${alpha(item.color, 0.2)} 0%, ${alpha(item.color, 0.1)} 100%)`,
+                      borderLeft: `3px solid ${item.color}`,
+                      '&:hover': {
+                        background: `linear-gradient(135deg, ${alpha(item.color, 0.25)} 0%, ${alpha(item.color, 0.15)} 100%)`,
+                      },
+                    },
+                    '&:hover': {
+                      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    },
+                  }}
+                >
+                  <ListItemIcon sx={{ color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.7)', minWidth: 24 }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.text}
+                    primaryTypographyProps={{ fontSize: '0.75rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.9)' }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+
+        {/* Company Menu Section */}
+        <Box sx={{ px: 0.5, py: 0.5 }}>
+          <Typography
+            variant="overline"
+            sx={{
+              color: 'rgba(255, 255, 255, 0.6)',
+              fontSize: '0.6rem',
               fontWeight: 600,
               letterSpacing: 0.5,
               mb: 0.15,
@@ -242,10 +349,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     px: 0.8,
                     backgroundColor: 'transparent',
                     '&.Mui-selected': {
-                      background: `linear-gradient(135deg, rgba(33, 150, 243, 0.2) 0%, rgba(33, 150, 243, 0.1) 100%)`,
-                      borderLeft: `3px solid #2196f3`,
+                      background: `linear-gradient(135deg, ${alpha(item.color, 0.2)} 0%, ${alpha(item.color, 0.1)} 100%)`,
+                      borderLeft: `3px solid ${item.color}`,
                       '&:hover': {
-                        background: `linear-gradient(135deg, rgba(33, 150, 243, 0.25) 0%, rgba(33, 150, 243, 0.15) 100%)`,
+                        background: `linear-gradient(135deg, ${alpha(item.color, 0.25)} 0%, ${alpha(item.color, 0.15)} 100%)`,
                       },
                     },
                     '&:hover': {
@@ -253,67 +360,69 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     },
                   }}
                 >
-                  <ListItemIcon sx={{ color: location.pathname === item.path ? '#2196f3' : 'rgba(255, 255, 255, 0.7)', minWidth: 24 }}>
+                  <ListItemIcon sx={{ color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.7)', minWidth: 24 }}>
                     {item.icon}
                   </ListItemIcon>
                   <ListItemText
                     primary={item.text}
-                    primaryTypographyProps={{ fontSize: '0.65rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? '#2196f3' : 'rgba(255, 255, 255, 0.9)' }}
+                    primaryTypographyProps={{ fontSize: '0.75rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.9)' }}
                   />
                 </ListItemButton>
               </ListItem>
             ))}
           </List>
         </Box>
-      </Box>
 
-      {/* Footer - My Account - Fixed at bottom */}
-      <Box
-        sx={{
-          flexGrow: 0,
-          p: 0.5,
-          background: 'linear-gradient(180deg, #2a2a2a 0%, #333333 100%)',
-        }}
-      >
-        <Typography
-          variant="overline"
-          sx={{
-            color: 'rgba(255, 255, 255, 0.6)',
-            fontSize: '0.5rem',
-            fontWeight: 600,
-            letterSpacing: 0.5,
-            mb: 0.15,
-            ml: 1,
-          }}
-        >
-          MY ACCOUNT
-        </Typography>
-        <List sx={{ p: 0 }}>
-          {accountMenuItems.map((item) => (
-            <ListItem key={item.text} disablePadding sx={{ mb: 0.02 }}>
-              <ListItemButton
-                onClick={() => navigate(item.path)}
-                sx={{
-                  borderRadius: 1,
-                  py: 0.2,
-                  px: 0.8,
-                  backgroundColor: 'transparent',
-                  '&:hover': {
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                  },
-                }}
-              >
-                <ListItemIcon sx={{ color: 'rgba(255, 255, 255, 0.7)', minWidth: 24 }}>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.text}
-                  primaryTypographyProps={{ fontSize: '0.65rem', fontWeight: 400, color: 'rgba(255, 255, 255, 0.9)' }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        {/* My Account Menu Section - Now inside scrollable area */}
+        <Box sx={{ px: 0.5, py: 0.5 }}>
+          <Typography
+            variant="overline"
+            sx={{
+              color: 'rgba(255, 255, 255, 0.6)',
+              fontSize: '0.6rem',
+              fontWeight: 600,
+              letterSpacing: 0.5,
+              mb: 0.15,
+              ml: 1,
+            }}
+          >
+            MY ACCOUNT
+          </Typography>
+          <List sx={{ p: 0 }}>
+            {accountMenuItems.map((item) => (
+              <ListItem key={item.text} disablePadding sx={{ mb: 0.02 }}>
+                <ListItemButton
+                  selected={location.pathname === item.path}
+                  onClick={() => navigate(item.path)}
+                  sx={{
+                    borderRadius: 1,
+                    py: 0.2,
+                    px: 0.8,
+                    backgroundColor: 'transparent',
+                    '&.Mui-selected': {
+                      background: `linear-gradient(135deg, ${alpha(item.color, 0.2)} 0%, ${alpha(item.color, 0.1)} 100%)`,
+                      borderLeft: `3px solid ${item.color}`,
+                      '&:hover': {
+                        background: `linear-gradient(135deg, ${alpha(item.color, 0.25)} 0%, ${alpha(item.color, 0.15)} 100%)`,
+                      },
+                    },
+                    '&:hover': {
+                      backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    },
+                  }}
+                >
+                  <ListItemIcon sx={{ color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.7)', minWidth: 24 }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.text}
+                    primaryTypographyProps={{ fontSize: '0.75rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.9)' }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
       </Box>
     </Box>
   );
@@ -390,29 +499,61 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           
           <Box sx={{ flexGrow: 1.5 }} />
           
-          {/* User Profile with Dropdown */}
-          <IconButton
+          {/* User Profile Section */}
+          <Box
             onClick={handleAvatarClick}
             sx={{
-              p: 0,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1.5,
+              cursor: 'pointer',
+              borderRadius: '8px',
+              px: 1.5,
+              py: 0.5,
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              },
+              transition: 'background-color 0.2s ease',
             }}
           >
+            {/* User Avatar */}
             <Avatar
               sx={{
-                width: 32,
-                height: 32,
-                bgcolor: theme.palette.primary.main,
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                '&:hover': {
-                  opacity: 0.8,
-                },
+                width: 36,
+                height: 36,
+                bgcolor: 'rgba(255, 255, 255, 0.1)',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
               }}
             >
-              A
+              <Person sx={{ color: 'white', fontSize: '1.2rem' }} />
             </Avatar>
-          </IconButton>
+            
+            {/* User Name */}
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: 'white',
+                  fontWeight: 500,
+                  fontSize: '0.875rem',
+                  lineHeight: 1.2,
+                }}
+              >
+                {currentUser?.name || 'Admin User'}
+              </Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  fontSize: '0.7rem',
+                  lineHeight: 1,
+                  textTransform: 'capitalize',
+                }}
+              >
+                {currentUser?.role ? currentUser.role.replace(/_/g, ' ') : 'User'}
+              </Typography>
+            </Box>
+          </Box>
           
           <Menu
             anchorEl={anchorEl}
@@ -421,10 +562,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             PaperProps={{
               sx: {
                 mt: 1,
-                minWidth: 150,
+                minWidth: 180,
                 '& .MuiMenuItem-root': {
                   px: 2,
-                  py: 1,
+                  py: 1.5,
                 },
               },
             }}
