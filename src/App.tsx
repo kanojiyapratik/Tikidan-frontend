@@ -11,31 +11,10 @@ import Meetings from './pages/Meetings';
 import PlaceholderPage from './pages/PlaceholderPage';
 import './App.css';
 
-// Protected Route Component
+// Protected Route Component - Only checks for authentication
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const token = localStorage.getItem('token');
   return token ? <>{children}</> : <Navigate to="/login" replace />;
-};
-
-// Role-based Protected Route Component
-const RoleProtectedRoute = ({
-  children,
-  allowedRoles
-}: {
-  children: React.ReactNode,
-  allowedRoles: string[]
-}) => {
-  const token = localStorage.getItem('token');
-  const userData = localStorage.getItem('user');
-  
-  if (!token || !userData) {
-    return <Navigate to="/login" replace />;
-  }
-
-  const user = JSON.parse(userData);
-  const hasAccess = allowedRoles.includes(user.role);
-
-  return hasAccess ? <>{children}</> : <Navigate to="/reports" replace />;
 };
 
 function App() {
@@ -46,7 +25,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
         
-        {/* Protected Routes */}
+        {/* Protected Routes - All route protection is handled by backend middleware */}
         <Route
           path="/*"
           element={
@@ -55,83 +34,31 @@ function App() {
                 <Routes>
                   {/* Main Menu */}
                   <Route path="/reports" element={<Reports />} />
-                  <Route path="/team" element={
-                    <RoleProtectedRoute allowedRoles={['admin', 'user', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager']}>
-                      <Team />
-                    </RoleProtectedRoute>
-                  } />
+                  <Route path="/team" element={<Team />} />
                   <Route path="/projects" element={<Projects />} />
                   <Route path="/clients" element={<Clients />} />
-                  <Route path="/meetings" element={
-                    <RoleProtectedRoute allowedRoles={['sales_manager']}>
-                      <Meetings />
-                    </RoleProtectedRoute>
-                  } />
+                  <Route path="/meetings" element={<Meetings />} />
                   
-                  {/* Expenses Menu */}
+                  {/* Expenses Menu - All protected by backend middleware */}
                   <Route path="/expenses" element={<PlaceholderPage />} />
-                  <Route path="/review-expenses" element={
-                    <RoleProtectedRoute allowedRoles={['admin', 'sales_manager', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager']}>
-                      <PlaceholderPage />
-                    </RoleProtectedRoute>
-                  } />
-                  <Route path="/approved-expenses" element={
-                    <RoleProtectedRoute allowedRoles={['admin', 'sales_manager', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager']}>
-                      <PlaceholderPage />
-                    </RoleProtectedRoute>
-                  } />
-                  <Route path="/rejected-expenses" element={
-                    <RoleProtectedRoute allowedRoles={['admin', 'sales_manager', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager']}>
-                      <PlaceholderPage />
-                    </RoleProtectedRoute>
-                  } />
-                  <Route path="/expenses-report" element={
-                    <RoleProtectedRoute allowedRoles={['admin', 'sales_manager', 'vice_admin', 'senior_manager', 'team_lead', 'project_manager', 'hr_manager', 'finance_manager', 'operations_manager', 'marketing_manager', 'it_manager', 'executive', 'assistant_manager']}>
-                      <PlaceholderPage />
-                    </RoleProtectedRoute>
-                  } />
-                  <Route path="/payment-pending" element={
-                    <RoleProtectedRoute allowedRoles={['admin', 'finance_manager', 'operations_manager', 'vice_admin', 'senior_manager', 'assistant_manager']}>
-                      <PlaceholderPage />
-                    </RoleProtectedRoute>
-                  } />
-                  <Route path="/expense-paid" element={
-                    <RoleProtectedRoute allowedRoles={['admin', 'finance_manager', 'operations_manager', 'vice_admin', 'senior_manager', 'assistant_manager']}>
-                      <PlaceholderPage />
-                    </RoleProtectedRoute>
-                  } />
-                  <Route path="/manage-categories" element={
-                    <RoleProtectedRoute allowedRoles={['admin', 'finance_manager', 'vice_admin', 'senior_manager']}>
-                      <PlaceholderPage />
-                    </RoleProtectedRoute>
-                  } />
-                  <Route path="/expense-settings" element={
-                    <RoleProtectedRoute allowedRoles={['admin', 'finance_manager', 'vice_admin']}>
-                      <PlaceholderPage />
-                    </RoleProtectedRoute>
-                  } />
+                  <Route path="/review-expenses" element={<PlaceholderPage />} />
+                  <Route path="/approved-expenses" element={<PlaceholderPage />} />
+                  <Route path="/rejected-expenses" element={<PlaceholderPage />} />
+                  <Route path="/expenses-report" element={<PlaceholderPage />} />
+                  <Route path="/payment-pending" element={<PlaceholderPage />} />
+                  <Route path="/expense-paid" element={<PlaceholderPage />} />
+                  <Route path="/manage-categories" element={<PlaceholderPage />} />
+                  <Route path="/expense-settings" element={<PlaceholderPage />} />
                   
                   {/* Company Menu */}
                   <Route path="/company" element={<PlaceholderPage />} />
                   <Route path="/attendance" element={<PlaceholderPage />} />
-                  <Route path="/employees" element={
-                    <RoleProtectedRoute allowedRoles={['admin', 'hr_manager', 'vice_admin', 'senior_manager']}>
-                      <Employees />
-                    </RoleProtectedRoute>
-                  } />
+                  <Route path="/employees" element={<Employees />} />
                   <Route path="/categories" element={<PlaceholderPage />} />
-                  <Route path="/department" element={
-                    <RoleProtectedRoute allowedRoles={['admin', 'hr_manager', 'vice_admin', 'senior_manager']}>
-                      <PlaceholderPage />
-                    </RoleProtectedRoute>
-                  } />
+                  <Route path="/department" element={<PlaceholderPage />} />
                   <Route path="/branches" element={<PlaceholderPage />} />
                   <Route path="/holiday" element={<PlaceholderPage />} />
-                  <Route path="/billing" element={
-                    <RoleProtectedRoute allowedRoles={['admin', 'finance_manager', 'vice_admin', 'senior_manager']}>
-                      <PlaceholderPage />
-                    </RoleProtectedRoute>
-                  } />
+                  <Route path="/billing" element={<PlaceholderPage />} />
                   <Route path="/company-profile" element={<PlaceholderPage />} />
                   
                   {/* My Account Menu */}

@@ -57,7 +57,7 @@ const Profile: React.FC = () => {
     }
   }, []);
 
-  // Get user initials for avatar
+// Get user initials for avatar
   const getUserInitials = (name: string) => {
     return name
       .split(' ')
@@ -65,6 +65,26 @@ const Profile: React.FC = () => {
       .join('')
       .toUpperCase()
       .slice(0, 2);
+  };
+
+  // Format role display (role-department or just role)
+  const getRoleDisplay = (role: string, department: string) => {
+    if (!role) return 'User';
+    
+    // Simple role name formatting for display
+    const formatRoleName = (roleName: string) => {
+      return roleName
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, (l: string) => l.toUpperCase());
+    };
+    
+    const formattedRole = formatRoleName(role);
+    
+    // If no department is assigned, return just the role
+    if (!department) return formattedRole;
+    
+    // If department exists, return "Role - Department" format
+    return `${formattedRole} - ${department}`;
   };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -134,7 +154,7 @@ const Profile: React.FC = () => {
               {userData.name || 'User Name'}
             </Typography>
             
-            <Box sx={{ 
+            <Box sx={{
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               color: 'white',
               px: 2,
@@ -144,7 +164,7 @@ const Profile: React.FC = () => {
               mb: 2
             }}>
               <Typography variant="caption" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                {userData.role ? userData.role.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()) : 'User'}
+                {getRoleDisplay(userData.role, userData.department)}
               </Typography>
             </Box>
             
@@ -328,7 +348,7 @@ const Profile: React.FC = () => {
                   Role
                 </Typography>
                 <Typography variant="body1" sx={{ fontWeight: 600, color: '#2c3e50' }}>
-                  {userData.role ? userData.role.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()) : 'Not provided'}
+                  {getRoleDisplay(userData.role, userData.department)}
                 </Typography>
               </Box>
               

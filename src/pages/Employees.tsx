@@ -91,7 +91,11 @@ const Employees: React.FC = () => {
           .map((emp: any) => ({
             id: emp._id,
             name: emp.name || `${emp.firstName || ''} ${emp.lastName || ''}`.trim() || 'N/A',
-            role: emp.role ? emp.role.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()) : 'N/A',
+            role: emp.role ?
+              (emp.department ?
+                `${emp.role.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())} - ${emp.department}` :
+                emp.role.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())
+              ) : 'N/A',
             reportingTo: emp.reporting ? emp.reporting.charAt(0).toUpperCase() + emp.reporting.slice(1) : 'N/A',
             status: 'Active', // Default to active
             allMeetings: 0, // Placeholder - will be implemented later
@@ -149,9 +153,37 @@ const Employees: React.FC = () => {
     setOpenAddDialog(false);
   };
 
-  const handleDeleteEmployee = (id: string) => {
+  const handleDeleteEmployee = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this employee?')) {
-      setEmployees(employees.filter(emp => emp.id !== id));
+      try {
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+          console.error('No token found');
+          return;
+        }
+
+        const response = await fetch(`http://localhost:5000/api/auth/employees/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          // Remove employee from local state after successful deletion
+          setEmployees(employees.filter(emp => emp.id !== id));
+        } else {
+          console.error('Failed to delete employee:', data.message);
+          alert('Failed to delete employee: ' + data.message);
+        }
+      } catch (error) {
+        console.error('Error deleting employee:', error);
+        alert('Error deleting employee. Please try again.');
+      }
     }
   };
 
