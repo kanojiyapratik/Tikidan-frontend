@@ -125,8 +125,9 @@ const Reports: React.FC = () => {
       sx={{
         p: 2,
         borderRadius: 1.5,
-        background: '#ffffff',
-        border: '1px solid rgba(0, 0, 0, 0.08)',
+        backgroundColor: '#ffffff',
+        border: '1px solid #e2e8f0',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
       }}
     >
       <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>

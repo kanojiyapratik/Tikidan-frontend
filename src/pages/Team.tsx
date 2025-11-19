@@ -126,8 +126,10 @@ const Team: React.FC = () => {
       <Card
         elevation={2}
         sx={{
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          backgroundColor: '#ffffff',
           borderRadius: 2,
+          border: '1px solid #e2e8f0',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
         }}
       >
         <CardContent sx={{ p: 3 }}>

@@ -102,7 +102,7 @@ const Login: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
         p: 2,
       }}
     >
@@ -113,6 +113,8 @@ const Login: React.FC = () => {
           maxWidth: 400,
           width: '100%',
           borderRadius: 3,
+          backgroundColor: '#ffffff',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
         }}
       >
         <Box sx={{ textAlign: 'center', mb: 3 }}>
@@ -126,10 +128,10 @@ const Login: React.FC = () => {
               marginBottom: 16,
             }}
           />
-          <Typography variant="h4" sx={{ fontWeight: 700, color: '#1a1a1a', mb: 1 }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, color: '#2c3e50', mb: 1 }}>
             Welcome Back
           </Typography>
-          <Typography variant="body2" sx={{ color: '#666' }}>
+          <Typography variant="body2" sx={{ color: '#64748b' }}>
             Sign in to continue to Tikidan SaaS
           </Typography>
         </Box>
@@ -185,9 +187,9 @@ const Login: React.FC = () => {
             sx={{
               mb: 2,
               py: 1.5,
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
               '&:hover': {
-                background: 'linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%)',
+                background: 'linear-gradient(135deg, #2563eb 0%, #1e40af 100%)',
               },
             }}
           >
@@ -202,11 +204,11 @@ const Login: React.FC = () => {
             onClick={handleAdminLogin}
             sx={{
               py: 1.5,
-              borderColor: '#667eea',
-              color: '#667eea',
+              borderColor: '#3b82f6',
+              color: '#3b82f6',
               '&:hover': {
-                borderColor: '#5568d3',
-                background: 'rgba(102, 126, 234, 0.05)',
+                borderColor: '#2563eb',
+                background: 'rgba(59, 130, 246, 0.05)',
               },
             }}
           >

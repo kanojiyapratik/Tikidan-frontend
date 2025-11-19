@@ -219,7 +219,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   const drawer = (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', background: '#2a2a2a' }}>
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', background: '#ffffff' }}>
       {/* Header */}
       <Box
         sx={{
@@ -227,9 +227,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           display: 'flex',
           alignItems: 'center',
           px: 2,
-          background: '#1a1a1a',
-          color: 'white',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          background: '#f8fafc',
+          color: '#2c3e50',
+          borderBottom: '1px solid #e2e8f0',
           flexShrink: 0,
         }}
       >
@@ -244,10 +244,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             }}
           />
           <Box sx={{ mt: 1, ml: -0.5 }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: 600, fontSize: '0.9rem', lineHeight: 0.9, color: 'white', mb: -0.5 }}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 600, fontSize: '0.9rem', lineHeight: 0.9, color: '#2c3e50', mb: -0.5 }}>
               Tiki Tar Danosa
             </Typography>
-            <Typography variant="caption" sx={{ opacity: 0.8, fontSize: '0.65rem', color: 'rgba(255, 255, 255, 0.7)' }}>
+            <Typography variant="caption" sx={{ opacity: 0.7, fontSize: '0.65rem', color: '#64748b' }}>
               India Pvt Ltd
             </Typography>
           </Box>
@@ -259,7 +259,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         sx={{
           flexGrow: 1,
           overflow: 'auto',
-          background: '#2a2a2a',
+          background: '#ffffff',
           direction: 'rtl',
           '& > *': {
             direction: 'ltr',
@@ -268,13 +268,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             width: '6px',
           },
           '&::-webkit-scrollbar-track': {
-            background: 'rgba(255, 255, 255, 0.05)',
+            background: '#f1f3f4',
           },
           '&::-webkit-scrollbar-thumb': {
-            background: 'rgba(255, 255, 255, 0.2)',
+            background: 'rgba(156, 163, 175, 0.4)',
             borderRadius: '3px',
             '&:hover': {
-              background: 'rgba(255, 255, 255, 0.3)',
+              background: 'rgba(156, 163, 175, 0.6)',
             },
           },
         }}
@@ -285,7 +285,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <Typography
               variant="overline"
               sx={{
-                color: 'rgba(255, 255, 255, 0.6)',
+                color: '#64748b',
                 fontSize: '0.6rem',
                 fontWeight: 600,
                 letterSpacing: 0.5,
@@ -310,14 +310,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       px: 0.8,
                       backgroundColor: 'transparent',
                       '&.Mui-selected': {
-                        background: `linear-gradient(135deg, ${alpha(item.color, 0.2)} 0%, ${alpha(item.color, 0.1)} 100%)`,
+                        background: `linear-gradient(135deg, ${alpha(item.color, 0.08)} 0%, ${alpha(item.color, 0.04)} 100%)`,
                         borderLeft: `3px solid ${item.color}`,
                         '&:hover': {
-                          background: `linear-gradient(135deg, ${alpha(item.color, 0.25)} 0%, ${alpha(item.color, 0.15)} 100%)`,
+                          background: `linear-gradient(135deg, ${alpha(item.color, 0.12)} 0%, ${alpha(item.color, 0.06)} 100%)`,
                         },
                       },
                       '&:hover': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                        backgroundColor: '#f8fafc',
                       },
                     }}
                   >
@@ -326,7 +326,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         color: (location.pathname === item.path || 
                                (location.pathname === '/' && (item.path === '/reports' || item.path === '/dashboard')) ||
                                (location.pathname === '/dashboard' && item.path === '/dashboard') ||
-                               (location.pathname === '/reports' && item.path === '/reports')) ? item.color : 'rgba(255, 255, 255, 0.7)',
+                               (location.pathname === '/reports' && item.path === '/reports')) ? item.color : '#64748b',
                         minWidth: 24,
                       }}
                     >
@@ -343,7 +343,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                         color: (location.pathname === item.path || 
                                (location.pathname === '/' && (item.path === '/reports' || item.path === '/dashboard')) ||
                                (location.pathname === '/dashboard' && item.path === '/dashboard') ||
-                               (location.pathname === '/reports' && item.path === '/reports')) ? item.color : 'rgba(255, 255, 255, 0.9)',
+                               (location.pathname === '/reports' && item.path === '/reports')) ? item.color : '#475569',
                       }}
                     />
                   </ListItemButton>
@@ -359,7 +359,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <Typography
               variant="overline"
               sx={{
-                color: 'rgba(255, 255, 255, 0.6)',
+                color: '#64748b',
                 fontSize: '0.6rem',
                 fontWeight: 600,
                 letterSpacing: 0.5,
@@ -381,23 +381,23 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       px: 0.8,
                       backgroundColor: 'transparent',
                       '&.Mui-selected': {
-                        background: `linear-gradient(135deg, ${alpha(item.color, 0.2)} 0%, ${alpha(item.color, 0.1)} 100%)`,
+                        background: `linear-gradient(135deg, ${alpha(item.color, 0.08)} 0%, ${alpha(item.color, 0.04)} 100%)`,
                         borderLeft: `3px solid ${item.color}`,
                         '&:hover': {
-                          background: `linear-gradient(135deg, ${alpha(item.color, 0.25)} 0%, ${alpha(item.color, 0.15)} 100%)`,
+                          background: `linear-gradient(135deg, ${alpha(item.color, 0.12)} 0%, ${alpha(item.color, 0.06)} 100%)`,
                         },
                       },
                       '&:hover': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                        backgroundColor: '#f8fafc',
                       },
                     }}
                   >
-                    <ListItemIcon sx={{ color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.7)', minWidth: 24 }}>
+                    <ListItemIcon sx={{ color: location.pathname === item.path ? item.color : '#64748b', minWidth: 24 }}>
                       {item.icon}
                     </ListItemIcon>
                     <ListItemText
                       primary={item.text}
-                      primaryTypographyProps={{ fontSize: '0.825rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.9)' }}
+                      primaryTypographyProps={{ fontSize: '0.825rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : '#475569' }}
                     />
                   </ListItemButton>
                 </ListItem>
@@ -412,7 +412,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <Typography
               variant="overline"
               sx={{
-                color: 'rgba(255, 255, 255, 0.6)',
+                color: '#64748b',
                 fontSize: '0.6rem',
                 fontWeight: 600,
                 letterSpacing: 0.5,
@@ -434,23 +434,23 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       px: 0.8,
                       backgroundColor: 'transparent',
                       '&.Mui-selected': {
-                        background: `linear-gradient(135deg, ${alpha(item.color, 0.2)} 0%, ${alpha(item.color, 0.1)} 100%)`,
+                        background: `linear-gradient(135deg, ${alpha(item.color, 0.08)} 0%, ${alpha(item.color, 0.04)} 100%)`,
                         borderLeft: `3px solid ${item.color}`,
                         '&:hover': {
-                          background: `linear-gradient(135deg, ${alpha(item.color, 0.25)} 0%, ${alpha(item.color, 0.15)} 100%)`,
+                          background: `linear-gradient(135deg, ${alpha(item.color, 0.12)} 0%, ${alpha(item.color, 0.06)} 100%)`,
                         },
                       },
                       '&:hover': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                        backgroundColor: '#f8fafc',
                       },
                     }}
                   >
-                    <ListItemIcon sx={{ color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.7)', minWidth: 24 }}>
+                    <ListItemIcon sx={{ color: location.pathname === item.path ? item.color : '#64748b', minWidth: 24 }}>
                       {item.icon}
                     </ListItemIcon>
                     <ListItemText
                       primary={item.text}
-                      primaryTypographyProps={{ fontSize: '0.825rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.9)' }}
+                      primaryTypographyProps={{ fontSize: '0.825rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : '#475569' }}
                     />
                   </ListItemButton>
                 </ListItem>
@@ -465,7 +465,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <Typography
               variant="overline"
               sx={{
-                color: 'rgba(255, 255, 255, 0.6)',
+                color: '#64748b',
                 fontSize: '0.6rem',
                 fontWeight: 600,
                 letterSpacing: 0.5,
@@ -487,23 +487,23 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                       px: 0.8,
                       backgroundColor: 'transparent',
                       '&.Mui-selected': {
-                        background: `linear-gradient(135deg, ${alpha(item.color, 0.2)} 0%, ${alpha(item.color, 0.1)} 100%)`,
+                        background: `linear-gradient(135deg, ${alpha(item.color, 0.08)} 0%, ${alpha(item.color, 0.04)} 100%)`,
                         borderLeft: `3px solid ${item.color}`,
                         '&:hover': {
-                          background: `linear-gradient(135deg, ${alpha(item.color, 0.25)} 0%, ${alpha(item.color, 0.15)} 100%)`,
+                          background: `linear-gradient(135deg, ${alpha(item.color, 0.12)} 0%, ${alpha(item.color, 0.06)} 100%)`,
                         },
                       },
                       '&:hover': {
-                        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                        backgroundColor: '#f8fafc',
                       },
                     }}
                   >
-                    <ListItemIcon sx={{ color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.7)', minWidth: 24 }}>
+                    <ListItemIcon sx={{ color: location.pathname === item.path ? item.color : '#64748b', minWidth: 24 }}>
                       {item.icon}
                     </ListItemIcon>
                     <ListItemText
                       primary={item.text}
-                      primaryTypographyProps={{ fontSize: '0.825rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : 'rgba(255, 255, 255, 0.9)' }}
+                      primaryTypographyProps={{ fontSize: '0.825rem', fontWeight: location.pathname === item.path ? 600 : 400, color: location.pathname === item.path ? item.color : '#475569' }}
                     />
                   </ListItemButton>
                 </ListItem>
@@ -523,10 +523,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         elevation={0}
         sx={{
           zIndex: (theme) => theme.zIndex.drawer + 1,
-          backgroundColor: 'rgba(42, 42, 42, 0.95)',
+          backgroundColor: 'rgba(248, 250, 252, 0.95)',
           backdropFilter: 'blur(10px)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          color: 'white',
+          borderBottom: '1px solid #e2e8f0',
+          color: '#2c3e50',
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
           height: '64px',
@@ -553,23 +553,24 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             sx={{
               mx: 2,
               '& .MuiOutlinedInput-root': {
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                backgroundColor: '#ffffff',
                 borderRadius: '25px',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
                 '& fieldset': {
-                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                  borderColor: '#e2e8f0',
                 },
                 '&:hover fieldset': {
-                  borderColor: 'rgba(255, 255, 255, 0.5)',
+                  borderColor: '#cbd5e1',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: 'rgba(255, 255, 255, 0.8)',
+                  borderColor: '#3b82f6',
                 },
               },
               '& .MuiInputBase-input': {
-                color: 'white',
+                color: '#2c3e50',
                 fontSize: '0.775rem',
                 '&::placeholder': {
-                  color: 'rgba(255, 255, 255, 0.7)',
+                  color: '#64748b',
                   opacity: 1,
                 },
               },
@@ -579,7 +580,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <Search sx={{ color: 'rgba(255, 255, 255, 0.7)' }} />
+                  <Search sx={{ color: '#64748b' }} />
                 </InputAdornment>
               ),
             }}
@@ -599,7 +600,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               px: 1.5,
               py: 0.5,
               '&:hover': {
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                backgroundColor: '#f1f5f9',
               },
               transition: 'background-color 0.2s ease',
             }}
@@ -609,11 +610,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               sx={{
                 width: 36,
                 height: 36,
-                bgcolor: 'rgba(255, 255, 255, 0.1)',
-                border: '2px solid rgba(255, 255, 255, 0.2)',
+                bgcolor: '#e2e8f0',
+                border: '2px solid #cbd5e1',
               }}
             >
-              <Person sx={{ color: 'white', fontSize: '1.2rem' }} />
+              <Person sx={{ color: '#475569', fontSize: '1.2rem' }} />
             </Avatar>
             
             {/* User Name */}
@@ -621,7 +622,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <Typography
                 variant="body2"
                 sx={{
-                  color: 'white',
+                  color: '#2c3e50',
                   fontWeight: 500,
                   fontSize: '0.875rem',
                   lineHeight: 1.2,
@@ -632,7 +633,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <Typography
                 variant="caption"
                 sx={{
-                  color: 'rgba(255, 255, 255, 0.7)',
+                  color: '#64748b',
                   fontSize: '0.7rem',
                   lineHeight: 1,
                   textTransform: 'capitalize',
@@ -691,7 +692,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             boxSizing: 'border-box',
             width: drawerWidth,
             backgroundColor: 'transparent',
-            borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRight: '1px solid #e2e8f0',
           },
         }}
         aria-label="sidebar navigation"
@@ -739,7 +740,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           p: 2,
           pt: '72px',
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          backgroundColor: '#f5f5f5',
+          backgroundColor: '#fafbfc',
           minHeight: '100vh',
         }}
       >

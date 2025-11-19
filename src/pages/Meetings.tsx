@@ -43,13 +43,18 @@ const Meetings: React.FC = () => {
   };
 
   return (
-    <Box>
+    <Box sx={{ 
+      backgroundColor: '#fafbfc', 
+      minHeight: '100vh', 
+      p: 3,
+      borderRadius: 2
+    }}>
       {/* Header */}
       <Box sx={{ mb: 3 }}>
-        <Typography variant="h4" sx={{ mb: 1, fontWeight: 600 }}>
+        <Typography variant="h4" sx={{ mb: 1, fontWeight: 600, color: '#2c3e50' }}>
           Meetings
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" sx={{ color: '#64748b' }}>
           Manage your meetings and schedule
         </Typography>
       </Box>
@@ -59,14 +64,30 @@ const Meetings: React.FC = () => {
         <Button
           variant="contained"
           startIcon={<Add />}
-          sx={{ borderRadius: 2 }}
+          sx={{ 
+            borderRadius: 2, 
+            backgroundColor: '#3b82f6',
+            '&:hover': {
+              backgroundColor: '#2563eb',
+            },
+            textTransform: 'none'
+          }}
         >
           Schedule Meeting
         </Button>
         <Button
           variant="outlined"
           startIcon={<CalendarMonth />}
-          sx={{ borderRadius: 2 }}
+          sx={{ 
+            borderRadius: 2,
+            borderColor: '#e2e8f0',
+            color: '#475569',
+            '&:hover': {
+              borderColor: '#cbd5e1',
+              backgroundColor: '#f8fafc',
+            },
+            textTransform: 'none'
+          }}
         >
           View Calendar
         </Button>
@@ -74,32 +95,44 @@ const Meetings: React.FC = () => {
 
       {/* Meetings Overview Cards */}
       <Box sx={{ mb: 3, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2 }}>
-        <Card>
+        <Card sx={{ 
+          backgroundColor: '#ffffff', 
+          border: '1px solid #e2e8f0',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+        }}>
           <CardContent sx={{ textAlign: 'center' }}>
-            <Typography variant="h3" color="primary" sx={{ fontWeight: 700 }}>
+            <Typography variant="h3" sx={{ fontWeight: 700, color: '#3b82f6' }}>
               0
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" sx={{ color: '#64748b' }}>
               Total Meetings This Month
             </Typography>
           </CardContent>
         </Card>
-        <Card>
+        <Card sx={{ 
+          backgroundColor: '#ffffff', 
+          border: '1px solid #e2e8f0',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+        }}>
           <CardContent sx={{ textAlign: 'center' }}>
-            <Typography variant="h3" color="warning.main" sx={{ fontWeight: 700 }}>
+            <Typography variant="h3" sx={{ fontWeight: 700, color: '#f59e0b' }}>
               0
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" sx={{ color: '#64748b' }}>
               Pending Meetings
             </Typography>
           </CardContent>
         </Card>
-        <Card>
+        <Card sx={{ 
+          backgroundColor: '#ffffff', 
+          border: '1px solid #e2e8f0',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.06)'
+        }}>
           <CardContent sx={{ textAlign: 'center' }}>
-            <Typography variant="h3" color="success.main" sx={{ fontWeight: 700 }}>
+            <Typography variant="h3" sx={{ fontWeight: 700, color: '#10b981' }}>
               0
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" sx={{ color: '#64748b' }}>
               Completed Meetings
             </Typography>
           </CardContent>
@@ -107,9 +140,13 @@ const Meetings: React.FC = () => {
       </Box>
 
       {/* Meetings Table */}
-      <Card>
+      <Card sx={{ 
+        backgroundColor: '#ffffff', 
+        border: '1px solid #e2e8f0',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.08)'
+      }}>
         <CardContent>
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: '#2c3e50' }}>
             Upcoming & Recent Meetings
           </Typography>
           <TableContainer>
