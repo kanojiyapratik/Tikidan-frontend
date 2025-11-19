@@ -122,25 +122,25 @@ const Team: React.FC = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+    <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
       <Card
-        elevation={2}
+        elevation={1}
         sx={{
           backgroundColor: '#ffffff',
-          borderRadius: 2,
+          borderRadius: 1,
           border: '1px solid #e2e8f0',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
         }}
       >
-        <CardContent sx={{ p: 3 }}>
-          <Box sx={{ mb: 4 }}>
+        <CardContent sx={{ p: 2 }}>
+          <Box sx={{ mb: 2 }}>
             <Typography 
-              variant="h4" 
+              variant="h6" 
               gutterBottom 
               sx={{ 
-                fontSize: '2rem', 
+                fontSize: '1.1rem', 
                 fontWeight: 600, 
-                color: '#333',
+                color: '#1e293b',
                 mb: 1 
               }}
             >
@@ -148,15 +148,15 @@ const Team: React.FC = () => {
             </Typography>
             
             {currentUser && (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-                <Avatar sx={{ bgcolor: getRoleColor(currentUser.role) }}>
-                  <Person />
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
+                <Avatar sx={{ bgcolor: getRoleColor(currentUser.role), width: 32, height: 32 }}>
+                  <Person fontSize="small" />
                 </Avatar>
                 <Box>
-                  <Typography variant="h6" sx={{ fontWeight: 500 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 500, fontSize: '0.85rem', color: '#1e293b' }}>
                     {currentUser.name}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="caption" sx={{ color: '#64748b', fontSize: '0.7rem' }}>
                     {currentUser.designation}
                   </Typography>
                 </Box>
@@ -166,107 +166,104 @@ const Team: React.FC = () => {
                   sx={{ 
                     bgcolor: getRoleColor(currentUser.role),
                     color: 'white',
-                    fontWeight: 500 
+                    fontWeight: 500,
+                    fontSize: '0.6rem',
+                    height: 20,
+                    minHeight: 'auto'
                   }}
                 />
               </Box>
             )}
             
-            <Divider sx={{ mb: 3 }} />
+            <Divider sx={{ mb: 2 }} />
           </Box>
 
           {teamMembers.length === 0 ? (
-            <Box sx={{ textAlign: 'center', py: 8 }}>
-              <BusinessCenter sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-              <Typography variant="h6" color="text.secondary" gutterBottom>
+            <Box sx={{ textAlign: 'center', py: 4 }}>
+              <BusinessCenter sx={{ fontSize: 40, color: '#94a3b8', mb: 1.5 }} />
+              <Typography variant="subtitle2" sx={{ color: '#64748b', mb: 0.5 }}>
                 No Team Members
               </Typography>
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body2" sx={{ color: '#94a3b8', fontSize: '0.8rem' }}>
                 You don't have any team members reporting to you yet.
               </Typography>
             </Box>
           ) : (
             <Box>
               <Typography 
-                variant="h6" 
-                sx={{ mb: 3, fontWeight: 500, color: '#333' }}
+                variant="subtitle1" 
+                sx={{ mb: 2, fontWeight: 500, color: '#1e293b', fontSize: '0.9rem' }}
               >
                 Team Members ({teamMembers.length})
               </Typography>
               
-              <Stack spacing={3}>
+              <Stack spacing={1.5}>
                 {teamMembers.map((member) => (
                   <Card 
                     key={member.id}
                     variant="outlined"
                     sx={{
+                      border: '1px solid #e2e8f0',
                       transition: 'transform 0.2s, box-shadow 0.2s',
                       '&:hover': {
-                        transform: 'translateY(-2px)',
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                        transform: 'translateY(-1px)',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
                       }
                     }}
                   >
-                    <CardContent sx={{ p: 3 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                        <Avatar sx={{ bgcolor: getRoleColor(member.role), mr: 2 }}>
-                          <Person />
+                    <CardContent sx={{ p: 1.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                        <Avatar sx={{ bgcolor: getRoleColor(member.role), width: 28, height: 28, mr: 1 }}>
+                          <Person fontSize="small" />
                         </Avatar>
                         <Box sx={{ flexGrow: 1 }}>
                           <Typography 
-                            variant="h6" 
+                            variant="subtitle2" 
                             sx={{ 
                               fontWeight: 500, 
-                              fontSize: '1.1rem',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap'
+                              fontSize: '0.85rem',
+                              color: '#1e293b'
                             }}
                           >
                             {member.name}
                           </Typography>
                           <Typography 
-                            variant="body2" 
-                            color="text.secondary"
-                            sx={{ overflow: 'hidden', textOverflow: 'ellipsis' }}
+                            variant="caption" 
+                            sx={{ color: '#64748b', fontSize: '0.7rem' }}
                           >
                             {member.designation}
                           </Typography>
                         </Box>
+                        <Chip 
+                          label={member.role.replace('_', ' ').toUpperCase()} 
+                          size="small"
+                          sx={{ 
+                            bgcolor: getRoleColor(member.role),
+                            color: 'white',
+                            fontWeight: 500,
+                            fontSize: '0.6rem',
+                            height: 18,
+                            minHeight: 'auto'
+                          }}
+                        />
                       </Box>
                       
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                        <Email sx={{ fontSize: 16, mr: 1, color: 'text.secondary' }} />
+                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
+                        <Email sx={{ fontSize: 12, mr: 1, color: '#94a3b8' }} />
                         <Typography 
-                          variant="body2" 
-                          color="text.secondary"
-                          sx={{ 
-                            overflow: 'hidden', 
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap'
-                          }}
+                          variant="caption" 
+                          sx={{ color: '#64748b', fontSize: '0.7rem' }}
                         >
                           {member.email}
                         </Typography>
                       </Box>
                       
-                      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                        <Badge sx={{ fontSize: 16, mr: 1, color: 'text.secondary' }} />
-                        <Typography variant="body2" color="text.secondary">
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Badge sx={{ fontSize: 12, mr: 1, color: '#94a3b8' }} />
+                        <Typography variant="caption" sx={{ color: '#64748b', fontSize: '0.7rem' }}>
                           {member.employeeId}
                         </Typography>
                       </Box>
-                      
-                      <Chip 
-                        label={member.role.replace('_', ' ').toUpperCase()} 
-                        size="small"
-                        sx={{ 
-                          bgcolor: getRoleColor(member.role),
-                          color: 'white',
-                          fontWeight: 500,
-                          fontSize: '0.75rem'
-                        }}
-                      />
                     </CardContent>
                   </Card>
                 ))}

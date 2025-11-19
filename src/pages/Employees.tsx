@@ -86,23 +86,49 @@ const Employees: React.FC = () => {
         const currentUserData = localStorage.getItem('user');
         const currentUser = currentUserData ? JSON.parse(currentUserData) : null;
         
+        // Get all employees to map reporting names
+        const allEmployees = data.employees;
+        
+        // Create a mapping of employee IDs to names
+        const employeeNameMap: Record<string, string> = {};
+        allEmployees.forEach((emp: any) => {
+          const name = emp.name || `${emp.firstName || ''} ${emp.lastName || ''}`.trim() || 'N/A';
+          employeeNameMap[emp._id] = name;
+        });
+        
         // Transform backend data to match Employee interface and filter out admin
         const transformedEmployees: Employee[] = data.employees
           .filter((emp: any) => emp.role !== 'admin' && emp._id !== currentUser?.id)
-          .map((emp: any) => ({
-            id: emp._id,
-            name: emp.name || `${emp.firstName || ''} ${emp.lastName || ''}`.trim() || 'N/A',
-            role: emp.role ?
-              (emp.department ?
-                `${emp.role.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())} - ${emp.department}` :
-                emp.role.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())
-              ) : 'N/A',
-            reportingTo: emp.reporting ? emp.reporting.charAt(0).toUpperCase() + emp.reporting.slice(1) : 'N/A',
-            status: 'Active', // Default to active
-            allMeetings: 0, // Placeholder - will be implemented later
-            mostVisitedCategory: 'N/A', // Placeholder - will be implemented later
-            phone: emp.mobile || 'N/A',
-          }));
+          .map((emp: any) => {
+            // Map reporting field to actual manager name using reportsTo field (ObjectId reference)
+            let reportingTo = 'N/A';
+            if (emp.reportsTo) {
+              // If reportsTo is set, look up the manager's name from the employee map
+              if (employeeNameMap[emp.reportsTo]) {
+                reportingTo = employeeNameMap[emp.reportsTo];
+              } else {
+                reportingTo = 'Manager Not Found';
+              }
+            } else if (emp.reporting && emp.reporting !== 'self') {
+              // Fallback to reporting field for cases where it's a direct name/ID
+              reportingTo = emp.reporting;
+            }
+            
+            return {
+              id: emp._id,
+              name: emp.name || `${emp.firstName || ''} ${emp.lastName || ''}`.trim() || 'N/A',
+              role: emp.role ?
+                (emp.department ?
+                  `${emp.role.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())} - ${emp.department}` :
+                  emp.role.replace(/_/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())
+                ) : 'N/A',
+              reportingTo: reportingTo,
+              status: 'Active', // Default to active
+              allMeetings: 0, // Placeholder - will be implemented later
+              mostVisitedCategory: 'N/A', // Placeholder - will be implemented later
+              phone: emp.mobile || 'N/A',
+            };
+          });
         
         setEmployees(transformedEmployees);
       } else {
@@ -206,11 +232,11 @@ const Employees: React.FC = () => {
   };
 
   return (
-    <Box sx={{ p: 3, pt: 2, backgroundColor: '#ffffff', minHeight: '100vh' }}>
+    <Box sx={{ p: 1.5, pt: 1, backgroundColor: '#fafbfc', minHeight: '100vh' }}>
       {/* Header */}
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2.5, pb: 1.5, borderBottom: '1px solid #e8e8e8' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5, pb: 1, borderBottom: '1px solid #e2e8f0' }}>
         <Box>
-          <Typography variant="h5" sx={{ fontWeight: 600, color: '#2c3e50', letterSpacing: '-0.3px' }}>
+          <Typography variant="h6" sx={{ fontWeight: 600, color: '#1e293b', fontSize: '1.1rem' }}>
             Employee Management
           </Typography>
         </Box>
@@ -220,23 +246,23 @@ const Employees: React.FC = () => {
           startIcon={<AddIcon fontSize="small" />}
           onClick={handleAddEmployee}
           sx={{
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            boxShadow: '0 2px 8px rgba(102, 126, 234, 0.3)',
+            background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
+            boxShadow: '0 1px 3px rgba(59, 130, 246, 0.3)',
             textTransform: 'none',
-            px: 2,
-            py: 0.75,
-            fontSize: '0.85rem',
-            fontWeight: 600,
-            borderRadius: 1.5,
+            px: 1.5,
+            py: 0.5,
+            fontSize: '0.75rem',
+            fontWeight: 500,
+            borderRadius: 1,
             '&:hover': {
-              background: 'linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%)',
-              boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)',
+              background: 'linear-gradient(135deg, #2563eb 0%, #1e40af 100%)',
+              boxShadow: '0 2px 6px rgba(59, 130, 246, 0.4)',
               transform: 'translateY(-1px)',
             },
             transition: 'all 0.2s ease',
           }}
         >
-          Add Profile
+          Add Employee
         </Button>
       </Box>
 
@@ -244,20 +270,20 @@ const Employees: React.FC = () => {
       <Paper
         elevation={0}
         sx={{
-          borderRadius: 3,
+          borderRadius: 1,
           overflow: 'hidden',
-          border: '1px solid #e8e8e8',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          border: '1px solid #e2e8f0',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
         }}
       >
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow sx={{
-                backgroundColor: '#f8f9fa',
-                borderBottom: '2px solid #dee2e6',
+                backgroundColor: '#f8fafc',
+                borderBottom: '1px solid #e2e8f0',
               }}>
-                <TableCell sx={{ fontWeight: 700, color: '#495057', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.5px', py: 2 }}>
+                <TableCell sx={{ fontWeight: 600, color: '#475569', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', py: 1 }}>
                   <TableSortLabel
                     active={sortField === 'name'}
                     direction={sortDirection}
@@ -266,7 +292,7 @@ const Employees: React.FC = () => {
                     Employee
                   </TableSortLabel>
                 </TableCell>
-                <TableCell sx={{ fontWeight: 700, color: '#495057', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.5px', py: 2 }}>
+                <TableCell sx={{ fontWeight: 600, color: '#475569', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', py: 1 }}>
                   <TableSortLabel
                     active={sortField === 'status'}
                     direction={sortDirection}
@@ -275,7 +301,7 @@ const Employees: React.FC = () => {
                     Status
                   </TableSortLabel>
                 </TableCell>
-                <TableCell sx={{ fontWeight: 700, color: '#495057', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.5px', py: 2 }}>
+                <TableCell sx={{ fontWeight: 600, color: '#475569', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', py: 1 }}>
                   <TableSortLabel
                     active={sortField === 'allMeetings'}
                     direction={sortDirection}
@@ -284,7 +310,7 @@ const Employees: React.FC = () => {
                     Meetings
                   </TableSortLabel>
                 </TableCell>
-                <TableCell sx={{ fontWeight: 700, color: '#495057', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.5px', py: 2 }}>
+                <TableCell sx={{ fontWeight: 600, color: '#475569', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', py: 1 }}>
                   <TableSortLabel
                     active={sortField === 'mostVisitedCategory'}
                     direction={sortDirection}
@@ -293,7 +319,7 @@ const Employees: React.FC = () => {
                     Category
                   </TableSortLabel>
                 </TableCell>
-                <TableCell sx={{ fontWeight: 700, color: '#495057', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.5px', py: 2 }}>
+                <TableCell sx={{ fontWeight: 600, color: '#475569', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', py: 1 }}>
                   <TableSortLabel
                     active={sortField === 'phone'}
                     direction={sortDirection}
@@ -302,7 +328,7 @@ const Employees: React.FC = () => {
                     Contact
                   </TableSortLabel>
                 </TableCell>
-                <TableCell align="center" sx={{ fontWeight: 700, color: '#495057', fontSize: '0.85rem', textTransform: 'uppercase', letterSpacing: '0.5px', py: 2 }}>Actions</TableCell>
+                <TableCell align="center" sx={{ fontWeight: 600, color: '#475569', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', py: 1 }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -310,9 +336,9 @@ const Employees: React.FC = () => {
                 <TableRow
                   key={employee.id}
                   sx={{
-                    borderBottom: '1px solid #f0f0f0',
+                    borderBottom: '1px solid #f1f5f9',
                     '&:hover': {
-                      backgroundColor: '#f8f9fa',
+                      backgroundColor: '#f8fafc',
                       transition: 'background-color 0.2s ease',
                     },
                     '&:last-child': {
@@ -320,66 +346,67 @@ const Employees: React.FC = () => {
                     },
                   }}
                 >
-                  <TableCell sx={{ py: 1.5 }}>
+                  <TableCell sx={{ py: 1 }}>
                     <Box>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#2c3e50', mb: 0.5, fontSize: '0.95rem' }}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 500, color: '#1e293b', mb: 0.2, fontSize: '0.85rem' }}>
                         {employee.name}
                       </Typography>
                       <Box sx={{ lineHeight: 0.8 }}>
-                        <Typography variant="caption" sx={{ color: '#7f8c8d', display: 'block', mb: 0, fontSize: '0.8rem', lineHeight: 1 }}>
+                        <Typography variant="caption" sx={{ color: '#64748b', display: 'block', mb: 0, fontSize: '0.7rem', lineHeight: 1 }}>
                           {employee.role}
                         </Typography>
-                        <Typography variant="caption" sx={{ color: '#95a5a6', fontSize: '0.75rem', lineHeight: 1, mt: -0.2 }}>
+                        <Typography variant="caption" sx={{ color: '#94a3b8', fontSize: '0.7rem', lineHeight: 1 }}>
                           Reports to: {employee.reportingTo}
                         </Typography>
                       </Box>
                     </Box>
                   </TableCell>
-                  <TableCell sx={{ py: 1.5 }}>
+                  <TableCell sx={{ py: 1 }}>
                     <Chip
                       label={employee.status}
                       size="small"
                       sx={{
-                        backgroundColor: employee.status === 'Active' ? '#d4edda' : '#f8d7da',
-                        color: employee.status === 'Active' ? '#155724' : '#721c24',
-                        fontWeight: 600,
-                        fontSize: '0.75rem',
-                        borderRadius: 2,
-                        px: 1.5,
-                        height: 26,
+                        backgroundColor: employee.status === 'Active' ? '#dcfce7' : '#fef2f2',
+                        color: employee.status === 'Active' ? '#166534' : '#991b1b',
+                        fontWeight: 500,
+                        fontSize: '0.7rem',
+                        borderRadius: 1,
+                        px: 1,
+                        height: 20,
+                        minHeight: 'auto',
                       }}
                     />
                   </TableCell>
-                  <TableCell sx={{ py: 1.5 }}>
-                    <Typography variant="body2" sx={{ fontWeight: 600, color: '#2c3e50', fontSize: '0.9rem' }}>
+                  <TableCell sx={{ py: 1 }}>
+                    <Typography variant="body2" sx={{ fontWeight: 500, color: '#1e293b', fontSize: '0.8rem' }}>
                       {employee.allMeetings}
                     </Typography>
                   </TableCell>
-                  <TableCell sx={{ py: 1.5 }}>
-                    <Typography variant="body2" sx={{ color: '#7f8c8d', fontSize: '0.9rem' }}>
+                  <TableCell sx={{ py: 1 }}>
+                    <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
                       {employee.mostVisitedCategory}
                     </Typography>
                   </TableCell>
-                  <TableCell sx={{ py: 1.5 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <PhoneIcon sx={{ fontSize: 18, color: '#95a5a6' }} />
-                      <Typography variant="body2" sx={{ color: '#7f8c8d', fontSize: '0.9rem' }}>
+                  <TableCell sx={{ py: 1 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <PhoneIcon sx={{ fontSize: 14, color: '#94a3b8' }} />
+                      <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
                         {employee.phone}
                       </Typography>
                     </Box>
                   </TableCell>
-                  <TableCell align="center" sx={{ py: 1.5 }}>
-                    <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
+                  <TableCell align="center" sx={{ py: 1 }}>
+                    <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'center' }}>
                       <Tooltip title="Edit">
                         <IconButton
                           size="small"
                           onClick={() => handleEditEmployee(employee.id)}
                           sx={{
-                            color: '#667eea',
-                            backgroundColor: '#f0f3ff',
+                            color: '#3b82f6',
+                            backgroundColor: '#eff6ff',
                             '&:hover': {
-                              backgroundColor: '#e0e7ff',
-                              transform: 'scale(1.1)',
+                              backgroundColor: '#dbeafe',
+                              transform: 'scale(1.05)',
                             },
                             transition: 'all 0.2s ease',
                           }}
@@ -392,11 +419,11 @@ const Employees: React.FC = () => {
                           size="small"
                           onClick={() => handleDeleteEmployee(employee.id)}
                           sx={{
-                            color: '#e74c3c',
-                            backgroundColor: '#ffe8e8',
+                            color: '#ef4444',
+                            backgroundColor: '#fef2f2',
                             '&:hover': {
-                              backgroundColor: '#ffd4d4',
-                              transform: 'scale(1.1)',
+                              backgroundColor: '#fee2e2',
+                              transform: 'scale(1.05)',
                             },
                             transition: 'all 0.2s ease',
                           }}
@@ -413,12 +440,12 @@ const Employees: React.FC = () => {
         </TableContainer>
         
         {filteredAndSortedEmployees.length === 0 && (
-          <Box sx={{ p: 4, textAlign: 'center' }}>
-            <PersonIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
-            <Typography variant="h6" color="text.secondary">
+          <Box sx={{ p: 2, textAlign: 'center' }}>
+            <PersonIcon sx={{ fontSize: 48, color: '#94a3b8', mb: 1.5 }} />
+            <Typography variant="subtitle2" sx={{ color: '#64748b', mb: 0.5 }}>
               No employees found
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" sx={{ color: '#94a3b8', fontSize: '0.8rem' }}>
               {searchTerm ? 'Try adjusting your search criteria' : 'Get started by adding your first employee'}
             </Typography>
           </Box>

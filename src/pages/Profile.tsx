@@ -101,107 +101,106 @@ const Profile: React.FC = () => {
 
   return (
     <Box sx={{ 
-      p: 3, 
-      backgroundColor: '#f8f9fa', 
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)'
+      p: 1.5, 
+      backgroundColor: '#fafbfc', 
+      minHeight: '100vh'
     }}>
       {/* Header */}
-      <Box sx={{ mb: 3 }}>
+      <Box sx={{ mb: 2 }}>
         <Typography 
-          variant="h5" 
+          variant="h6" 
           sx={{ 
-            fontWeight: 700, 
-            color: '#2c3e50', 
-            letterSpacing: '-0.5px',
+            fontWeight: 600, 
+            color: '#1e293b', 
+            fontSize: '1.1rem',
             mb: 0.5
           }}
         >
           My Profile
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.8rem' }}>
           Manage your personal information and account settings
         </Typography>
       </Box>
 
       {/* Profile Overview and Main Content */}
-      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '300px 1fr' }, gap: 3 }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '250px 1fr' }, gap: 2 }}>
         {/* Profile Overview Card */}
         <Card sx={{ 
-          borderRadius: 3, 
-          boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-          border: '1px solid rgba(255,255,255,0.2)',
-          background: 'linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%)'
+          borderRadius: 1, 
+          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+          border: '1px solid #e2e8f0',
+          backgroundColor: '#ffffff'
         }}>
-          <CardContent sx={{ textAlign: 'center', py: 3 }}>
+          <CardContent sx={{ textAlign: 'center', py: 2 }}>
             <Avatar
               sx={{
-                width: 100,
-                height: 100,
-                bgcolor: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                border: '3px solid #ffffff',
-                boxShadow: '0 4px 20px rgba(102, 126, 234, 0.3)',
+                width: 60,
+                height: 60,
+                bgcolor: '#3b82f6',
+                border: '2px solid #ffffff',
+                boxShadow: '0 2px 8px rgba(59, 130, 246, 0.2)',
                 mx: 'auto',
-                mb: 2,
+                mb: 1.5,
               }}
             >
-              <Typography variant="h4" sx={{ color: 'white', fontWeight: 700 }}>
+              <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
                 {getUserInitials(userData.name || 'User')}
               </Typography>
             </Avatar>
             
-            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1, color: '#2c3e50' }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5, color: '#1e293b', fontSize: '0.9rem' }}>
               {userData.name || 'User Name'}
             </Typography>
             
             <Box sx={{
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              backgroundColor: '#3b82f6',
               color: 'white',
-              px: 2,
-              py: 0.5,
-              borderRadius: 20,
+              px: 1.5,
+              py: 0.3,
+              borderRadius: 12,
               display: 'inline-block',
-              mb: 2
+              mb: 1.5
             }}>
-              <Typography variant="caption" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <Typography variant="caption" sx={{ fontWeight: 500, textTransform: 'uppercase', fontSize: '0.6rem' }}>
                 {getRoleDisplay(userData.role, userData.department)}
               </Typography>
             </Box>
             
-            <Divider sx={{ my: 2 }} />
+            <Divider sx={{ my: 1.5 }} />
             
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, alignItems: 'flex-start' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, width: '100%' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, alignItems: 'flex-start' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
                 <Box sx={{ 
-                  backgroundColor: alpha(theme.palette.primary.main, 0.1),
-                  p: 1,
-                  borderRadius: 1.5
+                  backgroundColor: '#eff6ff',
+                  p: 0.5,
+                  borderRadius: 1
                 }}>
-                  <Email sx={{ fontSize: 18, color: 'primary.main' }} />
+                  <Email sx={{ fontSize: 14, color: '#3b82f6' }} />
                 </Box>
                 <Box>
-                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.2 }}>
+                  <Typography variant="caption" sx={{ color: '#64748b', display: 'block', fontSize: '0.65rem' }}>
                     Email
                   </Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 500, color: '#2c3e50' }}>
+                  <Typography variant="body2" sx={{ fontWeight: 500, color: '#1e293b', fontSize: '0.75rem' }}>
                     {userData.email || 'Not provided'}
                   </Typography>
                 </Box>
               </Box>
               
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, width: '100%' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '100%' }}>
                 <Box sx={{ 
-                  backgroundColor: alpha(theme.palette.success.main, 0.1),
-                  p: 1,
-                  borderRadius: 1.5
+                  backgroundColor: '#f0fdf4',
+                  p: 0.5,
+                  borderRadius: 1
                 }}>
-                  <Phone sx={{ fontSize: 18, color: 'success.main' }} />
+                  <Phone sx={{ fontSize: 14, color: '#22c55e' }} />
                 </Box>
                 <Box>
-                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.2 }}>
+                  <Typography variant="caption" sx={{ color: '#64748b', display: 'block', fontSize: '0.65rem' }}>
                     Phone
                   </Typography>
-                  <Typography variant="body2" sx={{ fontWeight: 500, color: '#2c3e50' }}>
+                  <Typography variant="body2" sx={{ fontWeight: 500, color: '#1e293b', fontSize: '0.75rem' }}>
                     {userData.mobile || 'Not provided'}
                   </Typography>
                 </Box>
@@ -212,39 +211,40 @@ const Profile: React.FC = () => {
 
         {/* Main Content */}
         <Card sx={{ 
-          borderRadius: 3, 
-          boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-          border: '1px solid rgba(255,255,255,0.2)',
+          borderRadius: 1, 
+          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+          border: '1px solid #e2e8f0',
           overflow: 'hidden'
         }}>
           <Box sx={{ 
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            borderBottom: '1px solid rgba(255,255,255,0.1)'
+            backgroundColor: '#f8fafc',
+            borderBottom: '1px solid #e2e8f0'
           }}>
             <Tabs 
               value={tabValue} 
               onChange={handleTabChange} 
               sx={{ 
-                px: 3, 
-                minHeight: 56,
+                px: 2, 
+                minHeight: 40,
                 '& .MuiTab-root': {
-                  color: 'rgba(255,255,255,0.7)',
-                  fontWeight: 600,
+                  color: '#64748b',
+                  fontWeight: 500,
                   textTransform: 'none',
-                  minHeight: 56,
+                  minHeight: 40,
+                  fontSize: '0.8rem',
                   '&.Mui-selected': {
-                    color: 'white',
+                    color: '#1e293b',
                   }
                 },
                 '& .MuiTabs-indicator': {
-                  backgroundColor: 'white',
-                  height: 3,
-                  borderRadius: '3px 3px 0 0'
+                  backgroundColor: '#3b82f6',
+                  height: 2,
+                  borderRadius: '2px 2px 0 0'
                 }
               }}
             >
               <Tab 
-                label="Personal Information" 
+                label="Personal" 
                 icon={<Person fontSize="small" />} 
                 iconPosition="start" 
               />
@@ -254,7 +254,7 @@ const Profile: React.FC = () => {
                 iconPosition="start" 
               />
               <Tab 
-                label="Preferences" 
+                label="Settings" 
                 icon={<Notifications fontSize="small" />} 
                 iconPosition="start" 
               />
@@ -263,112 +263,112 @@ const Profile: React.FC = () => {
 
           {/* Personal Info Tab */}
           <TabPanel value={tabValue} index={0}>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 700, color: '#2c3e50' }}>
+            <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 600, color: '#1e293b', fontSize: '0.9rem' }}>
               Personal Information
             </Typography>
             
-            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 3 }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1.5 }}>
               <Box sx={{ 
-                backgroundColor: '#f8f9fa',
-                p: 2,
-                borderRadius: 2,
-                border: '1px solid #e9ecef'
+                backgroundColor: '#f8fafc',
+                p: 1.5,
+                borderRadius: 1,
+                border: '1px solid #e2e8f0'
               }}>
                 <Typography variant="caption" sx={{ 
-                  color: '#6c757d', 
+                  color: '#64748b', 
                   display: 'block', 
-                  mb: 1,
-                  fontWeight: 600,
+                  mb: 0.5,
+                  fontWeight: 500,
                   textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
+                  fontSize: '0.6rem'
                 }}>
                   Full Name
                 </Typography>
-                <Typography variant="body1" sx={{ fontWeight: 600, color: '#2c3e50' }}>
+                <Typography variant="body2" sx={{ fontWeight: 500, color: '#1e293b', fontSize: '0.8rem' }}>
                   {userData.name || 'Not provided'}
                 </Typography>
               </Box>
               
               <Box sx={{ 
-                backgroundColor: '#f8f9fa',
-                p: 2,
-                borderRadius: 2,
-                border: '1px solid #e9ecef'
+                backgroundColor: '#f8fafc',
+                p: 1.5,
+                borderRadius: 1,
+                border: '1px solid #e2e8f0'
               }}>
                 <Typography variant="caption" sx={{ 
-                  color: '#6c757d', 
+                  color: '#64748b', 
                   display: 'block', 
-                  mb: 1,
-                  fontWeight: 600,
+                  mb: 0.5,
+                  fontWeight: 500,
                   textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
+                  fontSize: '0.6rem'
                 }}>
                   Email Address
                 </Typography>
-                <Typography variant="body1" sx={{ fontWeight: 600, color: '#2c3e50' }}>
+                <Typography variant="body2" sx={{ fontWeight: 500, color: '#1e293b', fontSize: '0.8rem' }}>
                   {userData.email || 'Not provided'}
                 </Typography>
               </Box>
               
               <Box sx={{ 
-                backgroundColor: '#f8f9fa',
-                p: 2,
-                borderRadius: 2,
-                border: '1px solid #e9ecef'
+                backgroundColor: '#f8fafc',
+                p: 1.5,
+                borderRadius: 1,
+                border: '1px solid #e2e8f0'
               }}>
                 <Typography variant="caption" sx={{ 
-                  color: '#6c757d', 
+                  color: '#64748b', 
                   display: 'block', 
-                  mb: 1,
-                  fontWeight: 600,
+                  mb: 0.5,
+                  fontWeight: 500,
                   textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
+                  fontSize: '0.6rem'
                 }}>
                   Mobile Number
                 </Typography>
-                <Typography variant="body1" sx={{ fontWeight: 600, color: '#2c3e50' }}>
+                <Typography variant="body2" sx={{ fontWeight: 500, color: '#1e293b', fontSize: '0.8rem' }}>
                   {userData.mobile || 'Not provided'}
                 </Typography>
               </Box>
               
               <Box sx={{ 
-                backgroundColor: '#f8f9fa',
-                p: 2,
-                borderRadius: 2,
-                border: '1px solid #e9ecef'
+                backgroundColor: '#f8fafc',
+                p: 1.5,
+                borderRadius: 1,
+                border: '1px solid #e2e8f0'
               }}>
                 <Typography variant="caption" sx={{ 
-                  color: '#6c757d', 
+                  color: '#64748b', 
                   display: 'block', 
-                  mb: 1,
-                  fontWeight: 600,
+                  mb: 0.5,
+                  fontWeight: 500,
                   textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
+                  fontSize: '0.6rem'
                 }}>
                   Role
                 </Typography>
-                <Typography variant="body1" sx={{ fontWeight: 600, color: '#2c3e50' }}>
+                <Typography variant="body2" sx={{ fontWeight: 500, color: '#1e293b', fontSize: '0.8rem' }}>
                   {getRoleDisplay(userData.role, userData.department)}
                 </Typography>
               </Box>
               
               <Box sx={{ 
-                backgroundColor: '#f8f9fa',
-                p: 2,
-                borderRadius: 2,
-                border: '1px solid #e9ecef'
+                backgroundColor: '#f8fafc',
+                p: 1.5,
+                borderRadius: 1,
+                border: '1px solid #e2e8f0'
               }}>
                 <Typography variant="caption" sx={{ 
-                  color: '#6c757d', 
+                  color: '#64748b', 
                   display: 'block', 
-                  mb: 1,
-                  fontWeight: 600,
+                  mb: 0.5,
+                  fontWeight: 500,
                   textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
+                  fontSize: '0.6rem'
                 }}>
                   Department
                 </Typography>
-                <Typography variant="body1" sx={{ fontWeight: 600, color: '#2c3e50' }}>
+                <Typography variant="body2" sx={{ fontWeight: 500, color: '#1e293b', fontSize: '0.8rem' }}>
                   {userData.department || 'Not provided'}
                 </Typography>
               </Box>
@@ -377,74 +377,74 @@ const Profile: React.FC = () => {
 
           {/* Security Tab */}
           <TabPanel value={tabValue} index={1}>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 700, color: '#2c3e50' }}>
+            <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 600, color: '#1e293b', fontSize: '0.9rem' }}>
               Security Settings
             </Typography>
             
-            <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+            <Typography variant="body2" sx={{ color: '#64748b', mb: 2, fontSize: '0.8rem' }}>
               Security settings and password management will be available soon.
             </Typography>
             
-            <Box sx={{ display: 'grid', gridTemplateColumns: '1fr', gap: 2 }}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: '1fr', gap: 1.5 }}>
               <Box sx={{ 
-                backgroundColor: '#f8f9fa',
-                p: 2,
-                borderRadius: 2,
-                border: '1px solid #e9ecef'
+                backgroundColor: '#f8fafc',
+                p: 1.5,
+                borderRadius: 1,
+                border: '1px solid #e2e8f0'
               }}>
                 <Typography variant="caption" sx={{ 
-                  color: '#6c757d', 
+                  color: '#64748b', 
                   display: 'block', 
-                  mb: 1,
-                  fontWeight: 600,
+                  mb: 0.5,
+                  fontWeight: 500,
                   textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
+                  fontSize: '0.6rem'
                 }}>
                   Current Password
                 </Typography>
-                <Typography variant="body1" sx={{ fontFamily: 'monospace', letterSpacing: '2px', color: '#495057' }}>
+                <Typography variant="body2" sx={{ fontFamily: 'monospace', letterSpacing: '2px', color: '#1e293b', fontSize: '0.8rem' }}>
                   ••••••••••
                 </Typography>
               </Box>
               
               <Box sx={{ 
-                backgroundColor: '#fff3cd',
-                p: 2,
-                borderRadius: 2,
-                border: '1px solid #ffeaa7'
+                backgroundColor: '#fef3c7',
+                p: 1.5,
+                borderRadius: 1,
+                border: '1px solid #fde68a'
               }}>
                 <Typography variant="caption" sx={{ 
-                  color: '#856404', 
+                  color: '#92400e', 
                   display: 'block', 
-                  mb: 1,
-                  fontWeight: 600,
+                  mb: 0.5,
+                  fontWeight: 500,
                   textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
+                  fontSize: '0.6rem'
                 }}>
                   New Password
                 </Typography>
-                <Typography variant="body1" sx={{ color: '#856404' }}>
+                <Typography variant="body2" sx={{ color: '#92400e', fontSize: '0.8rem' }}>
                   Password change feature coming soon
                 </Typography>
               </Box>
               
               <Box sx={{ 
-                backgroundColor: '#fff3cd',
-                p: 2,
-                borderRadius: 2,
-                border: '1px solid #ffeaa7'
+                backgroundColor: '#fef3c7',
+                p: 1.5,
+                borderRadius: 1,
+                border: '1px solid #fde68a'
               }}>
                 <Typography variant="caption" sx={{ 
-                  color: '#856404', 
+                  color: '#92400e', 
                   display: 'block', 
-                  mb: 1,
-                  fontWeight: 600,
+                  mb: 0.5,
+                  fontWeight: 500,
                   textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
+                  fontSize: '0.6rem'
                 }}>
                   Confirm New Password
                 </Typography>
-                <Typography variant="body1" sx={{ color: '#856404' }}>
+                <Typography variant="body2" sx={{ color: '#92400e', fontSize: '0.8rem' }}>
                   Password change feature coming soon
                 </Typography>
               </Box>
@@ -453,33 +453,33 @@ const Profile: React.FC = () => {
 
           {/* Preferences Tab */}
           <TabPanel value={tabValue} index={2}>
-            <Typography variant="h6" sx={{ mb: 3, fontWeight: 700, color: '#2c3e50' }}>
+            <Typography variant="subtitle1" sx={{ mb: 2, fontWeight: 600, color: '#1e293b', fontSize: '0.9rem' }}>
               Preferences
             </Typography>
             
-            <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+            <Typography variant="body2" sx={{ color: '#64748b', mb: 2, fontSize: '0.8rem' }}>
               Preference settings will be available in a future update.
             </Typography>
             
             <Card sx={{ 
-              borderRadius: 2,
-              backgroundColor: '#f8f9fa',
-              border: '1px solid #e9ecef'
+              borderRadius: 1,
+              backgroundColor: '#f8fafc',
+              border: '1px solid #e2e8f0'
             }}>
-              <CardContent sx={{ py: 2 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <CardContent sx={{ py: 1.5 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                   <Box sx={{ 
-                    backgroundColor: alpha(theme.palette.info.main, 0.1),
-                    p: 1.5,
-                    borderRadius: 2
+                    backgroundColor: '#eff6ff',
+                    p: 1,
+                    borderRadius: 1
                   }}>
-                    <Notifications sx={{ fontSize: 20, color: 'info.main' }} />
+                    <Notifications sx={{ fontSize: 16, color: '#3b82f6' }} />
                   </Box>
                   <Box>
-                    <Typography variant="subtitle1" sx={{ mb: 0.5, fontWeight: 700, color: '#2c3e50' }}>
+                    <Typography variant="subtitle2" sx={{ mb: 0.3, fontWeight: 600, color: '#1e293b', fontSize: '0.8rem' }}>
                       Notification Settings
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" sx={{ color: '#64748b', fontSize: '0.75rem' }}>
                       Email notifications, push notifications, and other preference options will be configurable here.
                     </Typography>
                   </Box>
