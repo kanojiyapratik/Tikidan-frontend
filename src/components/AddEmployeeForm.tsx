@@ -72,6 +72,7 @@ interface Permission {
 
 interface EmployeeFormData {
   reporting: string;
+  reportsTo: string;
   department: string;
   employeeId: string;
   firstName: string;
@@ -89,6 +90,15 @@ interface EmployeeFormData {
   customPermissions: string[];
 }
 
+interface EmployeeOption {
+  id: string;
+  name: string;
+  email: string;
+  designation: string;
+  role: string;
+  employeeId: string;
+}
+
 interface AddEmployeeFormProps {
   onClose: () => void;
   onSave?: (data: EmployeeFormData) => void;
@@ -102,6 +112,7 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({
 }) => {
   const [formData, setFormData] = useState<EmployeeFormData>({
     reporting: '',
+    reportsTo: '',
     department: '',
     employeeId: 'EMP' + Math.floor(Math.random() * 10000),
     firstName: '',
@@ -122,28 +133,49 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [availablePermissions, setAvailablePermissions] = useState<Permission[]>([]);
+  const [availableEmployees, setAvailableEmployees] = useState<EmployeeOption[]>([]);
 
-  // Fetch available permissions on component mount
+  // Fetch available permissions and employees on component mount
   useEffect(() => {
-    const fetchPermissions = async () => {
+    const fetchData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:5000/api/auth/available-permissions', {
+        console.log('Fetching employee data...');
+        
+        // Fetch employees for reporting dropdown
+        const employeesResponse = await fetch('http://localhost:5000/api/auth/employees-list', {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
         });
         
-        if (response.ok) {
-          const data = await response.json();
-          setAvailablePermissions(data.permissions);
+        console.log('Employees response status:', employeesResponse.status);
+        
+        if (employeesResponse.ok) {
+          const employeesData = await employeesResponse.json();
+          console.log('Fetched employees:', employeesData.employees);
+          setAvailableEmployees(employeesData.employees);
+        } else {
+          console.error('Failed to fetch employees:', employeesResponse.status);
+        }
+        
+        // Fetch permissions
+        const permissionsResponse = await fetch('http://localhost:5000/api/auth/available-permissions', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        
+        if (permissionsResponse.ok) {
+          const permissionsData = await permissionsResponse.json();
+          setAvailablePermissions(permissionsData.permissions);
         }
       } catch (error) {
-        console.error('Error fetching permissions:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    fetchPermissions();
+    fetchData();
   }, []);
 
   // Fetch employee data if in edit mode
@@ -163,6 +195,7 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({
             const employee = data.employee;
             setFormData({
               reporting: employee.reporting || '',
+              reportsTo: employee.reportsTo || '',
               department: employee.department || '',
               employeeId: employee.employeeId || '',
               firstName: employee.firstName || '',
@@ -307,6 +340,7 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({
           mobile: formData.mobile,
           department: formData.department,
           reporting: formData.reporting,
+          reportsTo: formData.reportsTo || null,
           addressLine1: formData.addressLine1,
           addressLine2: formData.addressLine2,
           city: formData.city,
@@ -348,23 +382,41 @@ const AddEmployeeForm: React.FC<AddEmployeeFormProps> = ({
         <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 3 }}>
           {/* Left Column */}
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-            {/* Reporting */}
-            <FormControl fullWidth error={!!errors.reporting}>
-              <InputLabel>Reporting</InputLabel>
+            {/* Reports To */}
+            <FormControl fullWidth error={!!errors.reportsTo}>
+              <InputLabel>Reports To</InputLabel>
               <Select
-                value={formData.reporting}
-                onChange={handleSelectChange('reporting')}
-                label="Reporting"
+                value={formData.reportsTo}
+                onChange={handleSelectChange('reportsTo')}
+                label="Reports To"
               >
-                {REPORTING_OPTIONS.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                <MenuItem value="">
+                  <em>None (Self-Managing)</em>
+                </MenuItem>
+                {availableEmployees.length === 0 ? (
+                  <MenuItem disabled>
+                    <Typography variant="caption" color="text.secondary">
+                      No employees available or loading...
+                    </Typography>
                   </MenuItem>
-                ))}
+                ) : (
+                  availableEmployees.map((employee) => (
+                    <MenuItem key={employee.id} value={employee.id}>
+                      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                          {employee.name}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                          {employee.designation} ({employee.employeeId})
+                        </Typography>
+                      </Box>
+                    </MenuItem>
+                  ))
+                )}
               </Select>
-              {errors.reporting && (
+              {errors.reportsTo && (
                 <Typography variant="caption" color="error" sx={{ mt: 0.5 }}>
-                  {errors.reporting}
+                  {errors.reportsTo}
                 </Typography>
               )}
             </FormControl>
